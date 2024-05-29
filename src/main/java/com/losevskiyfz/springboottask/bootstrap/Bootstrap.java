@@ -21,13 +21,13 @@ public class Bootstrap implements CommandLineRunner {
 
     private final Singleton singleton;
 
-    // It creates unneeded coupling, but it's study project to just see possibilities of Spring Boot
-    // and I decided It's OK. I don't know another way to call events manually
+    // It creates strong coupling, but it's study project to just see possibilities of Spring Boot
+    // and I decided that's OK. I don't know another way to call events manually.
     private final ConfigurableApplicationContext applicationContext;
 
     @EventListener
     public void handleContextRefreshEvent(ContextStartedEvent contextRefreshedEvent){
-        System.out.println("Context Started Event is called");
+        System.out.println("Context Started Event is invoked");
     }
 
     @EventListener(classes = { ContextRefreshedEvent.class, ContextClosedEvent.class })
@@ -46,6 +46,7 @@ public class Bootstrap implements CommandLineRunner {
 
     @Override
     public void run(String... args){
+        // Try to create a lazy bean a bit later
         applicationContext.getBean(SingletonComponent.class);
         applicationContext.start();
         applicationContext.stop();
